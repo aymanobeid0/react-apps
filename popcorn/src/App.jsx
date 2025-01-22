@@ -24,14 +24,22 @@ export default function App() {
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
+  function handleSelectMovie(id) {
+    setSelectedId((selectedId) => (id === selectedId ? null : id));
+  }
+  function handleCloseMovie() {
+    setSelectedId(null);
+  }
   useEffect(
     function () {
+      const controller = new AbortController();
       async function getmovies() {
         try {
           setIsLoading(true);
           setError("");
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            { signal: controller.signal }
           );
 
           if (!res.ok) throw new Error("Something went wrong with fetching");
@@ -40,11 +48,13 @@ export default function App() {
           if (data.Response === "False") throw new Error("Movie not found");
 
           setMovies(data.Search);
-          // console.log(data.Search);
+          setError("");
           setIsLoading(false);
         } catch (err) {
           console.error(err.message);
-          setError(err.message);
+          if (err.name !== "AbortError") {
+            setError(err.message);
+          }
         } finally {
           setIsLoading(false);
         }
@@ -54,16 +64,15 @@ export default function App() {
         setError("");
         return;
       }
+      handleCloseMovie();
       getmovies();
+      return function () {
+        controller.abort();
+      };
     },
     [query]
   );
-  function handleSelectMovie(id) {
-    setSelectedId((selectedId) => (id === selectedId ? null : id));
-  }
-  function handleCloseMovie() {
-    setSelectedId(null);
-  }
+
   return (
     <>
       <NavBar>
@@ -156,6 +165,29 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       getMovieDetails();
     },
     [selectedId]
+  );
+
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          onCloseMovie();
+        }
+      }
+      document.addEventListener("keydown", callback);
+      //cleanup function
+      return () => document.removeEventListener("keydown", callback);
+    },
+    [onCloseMovie]
+  );
+  useEffect(
+    function () {
+      if (!title) return;
+      document.title = `Movie | ${title}`;
+      //cleanup function
+      return () => (document.title = "pocorn");
+    },
+    [title]
   );
 
   return (
