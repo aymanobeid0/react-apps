@@ -51,6 +51,7 @@ function Tabbed({ content }) {
   );
 }
 
+
 function Tab({ num, activeTab, onClick }) {
   return (
     <button
