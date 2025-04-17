@@ -1,41 +1,24 @@
 import CountryItem from "./CountryItem";
+import { city } from "../contexts/types";
+import { useCities } from "../contexts/CityContext";
 import styles from "./CountryList.module.css";
 import Message from "./Message";
 import Spinner from "./Spinner";
 
-type City = {
-  cityName?: string;
-  country?: string;
-  emoji?: string;
-  date?: string; // أو يمكن استخدام نوع Date إذا كنت تريد التعامل مع التواريخ ككائنات تاريخية.
-  notes?: string;
-  position?: {
-    lat: number;
-    lng: number;
-  };
-  id?: number;
-};
-
-type CityList = City[]; // أو يمكنك استخدام Array<City>
 type Country = {
   country: string;
   emoji: string;
 };
 
-function CountryList({
-  cities,
-  isLoading,
-}: {
-  cities: CityList;
-  isLoading: boolean;
-}) {
-  if (isLoading) return <Spinner />;
+function CountryList() {
+  const { cities, loading } = useCities();
+  if (loading) return <Spinner />;
   if (!cities.length)
     return (
       <Message message="Add your first country by clicking on a city on the map" />
     );
 
-  const countries = cities.reduce((arr: Country[], city: City) => {
+  const countries = cities.reduce((arr: Country[], city: city) => {
     if (
       city.country &&
       city.emoji &&
@@ -48,7 +31,7 @@ function CountryList({
   }, []);
   return (
     <ul className={styles.countryList}>
-      {countries.map((country) => (
+      {countries.map((country: Country) => (
         <CountryItem country={country} key={country.country} />
       ))}
     </ul>
