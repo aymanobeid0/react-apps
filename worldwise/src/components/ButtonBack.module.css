@@ -1,0 +1,15 @@
+.back {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 2rem;
+  transition: background-color 0.3s ease;
+}
+
+.back:hover {
+  background-color: #e0e0e0;
+}

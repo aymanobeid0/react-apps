@@ -8,7 +8,7 @@ export type city = {
     lat: number;
     lng: number;
   };
-  id?: number;
+  id: number;
 };
 export type cities = city[];
 export type data = {
