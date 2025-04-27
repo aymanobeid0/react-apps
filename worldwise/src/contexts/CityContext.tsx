@@ -1,15 +1,18 @@
 import { createContext, useEffect, useState, useContext } from "react";
 import { BaseUrl } from "../constants";
-import { data, cities } from "./types";
+import { data, cities, city } from "./types";
 
 const CityContext = createContext<data>({
   cities: [],
   loading: false,
+  getCity: async () => {},
+  currentCity: {},
 });
 
 function CityProvider({ children }: { children: React.ReactNode }) {
   const [cities, setCities] = useState<cities>([]);
   const [loading, setLoading] = useState(false);
+  const [currentCity, setCurrentCity] = useState<city>({});
 
   useEffect(function () {
     async function fetchCities() {
@@ -26,9 +29,21 @@ function CityProvider({ children }: { children: React.ReactNode }) {
     }
     fetchCities();
   }, []);
+  async function getCity(id: number) {
+    try {
+      setLoading(true);
+      const res = await fetch(`${BaseUrl}/cities/${id}`);
+      const data = await res.json();
+      setCurrentCity(data);
+    } catch {
+      console.log("error loading data");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <CityContext.Provider value={{ cities, loading }}>
+    <CityContext.Provider value={{ cities, loading, getCity, currentCity }}>
       {children}
     </CityContext.Provider>
   );

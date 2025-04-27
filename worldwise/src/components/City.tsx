@@ -3,19 +3,8 @@ import styles from "./City.module.css";
 import { useCities } from "../contexts/CityContext";
 import Spinner from "./Spinner";
 import ButtonBack from "./ButtonBack";
+import { useEffect } from "react";
 
-// type city = {
-//   cityName?: string;
-//   country?: string;
-//   emoji?: string;
-//   date?: string; // أو يمكن استخدام نوع Date إذا كنت تريد التعامل مع التواريخ ككائنات تاريخية.
-//   notes?: string;
-//   position?: {
-//     lat: number;
-//     lng: number;
-//   };
-//   id?: number | undefined;
-// };
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat("en", {
     day: "numeric",
@@ -25,15 +14,19 @@ const formatDate = (date: Date) =>
   }).format(new Date(date));
 
 function City() {
-  const { cities, loading } = useCities();
+  // const { cities, loading } = useCities();
   const { id } = useParams();
-
-  if (loading) return <Spinner />;
-  const cityId = Number(id);
-  const currentCity = cities.find((city) => city.id === cityId);
-  if (!currentCity) return <p>City not found</p>;
-
+  const { getCity, currentCity } = useCities();
   const { cityName, emoji, date, notes } = currentCity;
+  console.log(id);
+  useEffect(
+    function () {
+      getCity(+id!);
+    },
+    [id]
+  );
+
+  // if (!date) return <Spinner />;
 
   return (
     // <div>City {+id!}</div>
@@ -48,7 +41,9 @@ function City() {
 
       <div className={styles.row}>
         <h6>You went to {cityName} on</h6>
-        <p>{formatDate(new Date(date!))}</p>
+        <div>
+          <p>{date ? formatDate(new Date(date!)) : <Spinner />}</p>
+        </div>
       </div>
 
       {notes && (

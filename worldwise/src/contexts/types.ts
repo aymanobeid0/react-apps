@@ -8,10 +8,12 @@ export type city = {
     lat: number;
     lng: number;
   };
-  id: number;
+  id?: number;
 };
 export type cities = city[];
 export type data = {
   cities: cities;
   loading: boolean;
+  getCity: (id: number) => Promise<void>;
+  currentCity: city;
 };

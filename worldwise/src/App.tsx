@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 
 // import PageNav from "./components/PageNav";
 import Homepage from "./pages/Homepage";
@@ -31,7 +31,7 @@ function App() {
             <Route path="/app" element={<AppLayout />}>
               <Route index element={<CityList />} />
               {/* <Route index element={<Navigate replace to="cities" />} /> */}
-              <Route path="cities" element={<CityList />} />
+              <Route path="cities" element={<Navigate replace to="/app" />} />
               <Route path="cities/:id" element={<City />} />
 
               <Route path="countries" element={<CountryList />} />
