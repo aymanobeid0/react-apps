@@ -1,10 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useParams } from "react-router";
 import styles from "./City.module.css";
-import { useCities } from "../contexts/CityContext";
-import Spinner from "./Spinner";
-import ButtonBack from "./ButtonBack";
-import { useEffect } from "react";
 
+type city = {
+  cityName?: string;
+  country?: string;
+  emoji?: string;
+  date?: string; // أو يمكن استخدام نوع Date إذا كنت تريد التعامل مع التواريخ ككائنات تاريخية.
+  notes?: string;
+  position?: {
+    lat: number;
+    lng: number;
+  };
+  id?: number | undefined;
+};
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat("en", {
     day: "numeric",
@@ -18,15 +27,7 @@ function City() {
   const { id } = useParams();
   const { getCity, currentCity } = useCities();
   const { cityName, emoji, date, notes } = currentCity;
-  console.log(id);
-  useEffect(
-    function () {
-      getCity(+id!);
-    },
-    [id]
-  );
-
-  // if (!date) return <Spinner />;
+  const { id } = useParams();
 
   return (
     // <div>City {+id!}</div>
