@@ -12,7 +12,8 @@ const CityContext = createContext<data>({
 function CityProvider({ children }: { children: React.ReactNode }) {
   const [cities, setCities] = useState<cities>([]);
   const [loading, setLoading] = useState(false);
-  const [currentCity, setCurrentCity] = useState<city>({});
+  const [currentCity, setCurrentCity] = useState<city | null>(null);
+  console.log(BaseUrl);
 
   useEffect(function () {
     async function fetchCities() {
@@ -34,6 +35,7 @@ function CityProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       const res = await fetch(`${BaseUrl}/cities/${id}`);
       const data = await res.json();
+      console.log(data);
       setCurrentCity(data);
     } catch {
       console.log("error loading data");
