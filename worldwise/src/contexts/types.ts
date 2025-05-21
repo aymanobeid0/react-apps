@@ -15,7 +15,7 @@ export type data = {
   cities: cities;
   loading: boolean;
   getCity: (id: number) => Promise<void>;
-  currentCity: city;
+  currentCity: city | null;
 };
 
 export type user = {
