@@ -17,3 +17,18 @@ export type data = {
   getCity: (id: number) => Promise<void>;
   currentCity: city;
 };
+
+export type user = {
+  name: string;
+  email: string;
+  password: string;
+  avatar: string;
+};
+export type state = {
+  isAuthenticated: boolean;
+  user: null | user;
+};
+export type action = {
+  type: string;
+  payload?: user;
+};
