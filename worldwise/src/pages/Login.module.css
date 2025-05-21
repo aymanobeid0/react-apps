@@ -25,3 +25,16 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
+.btn {
+  background-color: var(--color-brand--2);
+  border-radius: 7px;
+  border: none;
+  padding: 1rem;
+  color: inherit;
+  font-family: inherit;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}

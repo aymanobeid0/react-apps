@@ -20,7 +20,7 @@
   height: 4rem;
 }
 
-.user button {
+.btn {
   background-color: var(--color-dark--2);
   border-radius: 7px;
   border: none;
