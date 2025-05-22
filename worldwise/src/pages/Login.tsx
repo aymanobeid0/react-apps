@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import styles from "./Login.module.css";
 import PageNav from "../components/PageNav";
 import Button from "../components/Button";
@@ -10,17 +10,24 @@ export default function Login() {
   const [email, setEmail] = useState("jack@example.com");
   const [password, setPassword] = useState("qwerty");
   const navigate = useNavigate();
+  const location = useLocation();
+
   //use Auth context
-  const { login, user, isAuthenticated } = useAuth();
+  const { login, isAuthenticated } = useAuth();
+  // const from = (location.state as { from?: Location })?.from?.pathname || "/app";
+  const from = location.state?.from?.pathname || "/app";
+  // console.log(from);
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/app", { replace: true });
+      navigate(from, { replace: true });
+      console.log(from);
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, from]);
+
   function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     login(email, password);
-    console.log(user?.name, user?.email, isAuthenticated);
+    // console.log(user?.name, user?.email, isAuthenticated);
   }
 
   return (

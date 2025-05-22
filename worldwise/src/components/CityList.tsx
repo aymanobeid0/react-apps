@@ -7,7 +7,7 @@ import Spinner from "./Spinner";
 
 function CityList() {
   const { cities, loading } = useCities();
-  console.log(...cities);
+  // console.log(...cities);
   if (loading) return <Spinner />;
   if (!cities.length)
     return (

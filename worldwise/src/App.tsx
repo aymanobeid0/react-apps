@@ -15,6 +15,7 @@ import City from "./components/City";
 import { CityProvider } from "./contexts/CityContext";
 import Form from "./components/Form";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
   // const location = useLocation();
@@ -27,9 +28,10 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route index element={<Homepage />} />
-
-              <Route path="/product" element={<Product />} />
-              <Route path="/pricing" element={<Pricing />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/product" element={<Product />} />
+                <Route path="/pricing" element={<Pricing />} />
+              </Route>
               <Route path="/app" element={<AppLayout />}>
                 <Route index element={<CityList />} />
                 {/* <Route index element={<Navigate replace to="cities" />} /> */}
