@@ -1,4 +1,10 @@
-import { createContext, useEffect, useState, useContext } from "react";
+import {
+  createContext,
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+} from "react";
 import { BaseUrl } from "../constants";
 import { data, cities, city } from "./types";
 
@@ -30,19 +36,19 @@ function CityProvider({ children }: { children: React.ReactNode }) {
     }
     fetchCities();
   }, []);
-  async function getCity(id: number) {
+  const getCity = useCallback(async (id: number) => {
+    if (id === currentCity?.id) return;
     try {
       setLoading(true);
       const res = await fetch(`${BaseUrl}/cities/${id}`);
       const data = await res.json();
-      console.log(data);
       setCurrentCity(data);
     } catch {
       console.log("error loading data");
     } finally {
       setLoading(false);
     }
-  }
+  }, []);
 
   return (
     <CityContext.Provider value={{ cities, loading, getCity, currentCity }}>

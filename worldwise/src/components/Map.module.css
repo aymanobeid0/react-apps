@@ -1,6 +1,10 @@
 .mapContainer {
-  flex: 1 1 0;
-  height: 100vh;
+  /* flex: 1 1 0; */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* width: 50%; */
+  flex: 1 0 auto; /* Allow the map to take available space */
 
   background-color: var(--color-dark--2);
   position: relative;
@@ -8,6 +12,7 @@
 
 .map {
   height: 100%;
+  /* Added width to ensure the map takes full width */
 }
 
 /* Here we want to style classes that are coming from leaflet. So we want CSS Modules to give us the ACTUAL classnames, not to add some random ID to them, because then they won't match the classnames defined inside the map. The solution is to define these classes as GLOBAL */
